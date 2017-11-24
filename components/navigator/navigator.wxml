@@ -1,0 +1,14 @@
+<wxs module='util'>
+	var getItemWidth = function(n){
+		return 100/n+'%';
+	}
+	module.exports = {
+		getItemWidth: getItemWidth
+	}
+</wxs>
+<view class="component-navigator">
+  <view data-index="{{index}}" bind:tap="itemClickHandle" class="navigator-item"  wx:for="{{navigator_data}}" style="color:{{index==select_index?select_text_color:color}}; width:{{util.getItemWidth(navigator_data.length)}};">
+  	<image mode="widthFix" src="{{index==select_index ? item.selectIcon:item.icon}}"></image>
+  	<view>{{item.text}}</view>
+  </view>
+</view>

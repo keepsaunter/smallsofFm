@@ -1,0 +1,17 @@
+.component-navigator {
+	width: 100%;
+	background-color: #F7F7FA;
+}
+.navigator-item {
+	display: inline-block;
+	text-align: center;
+	padding: 12rpx 0 12rpx 0;
+	height: 76rpx;
+}
+.navigator-item image {
+	width: 50rpx;
+}
+.navigator-item view {
+	margin-top: -8rpx;
+	font-size: 20rpx;
+}
