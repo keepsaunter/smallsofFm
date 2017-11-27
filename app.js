@@ -30,10 +30,7 @@ App({
         selectIcon: '../../images/scenario_select.png',
         text: '心情'
       }
-    ],
-    listeningUrl: '',
-    listeningPage: '',
-    listeningChannel: '14029'
+    ]
   },
   onLaunch: function () {
     // 展示本地存储能力
@@ -72,34 +69,3 @@ App({
     userInfo: null
   }
 })
-/*
-"tabBar": {
-    "color":"#000",
-    "selectedColor":"#26A2FF",
-    "list":[{
-      "pagePath": "pages/artist/artist",
-      "text": "艺术家",
-      "iconPath":"images/artist.png",
-      "selectedIconPath":"images/artist_select.png"
-    },{
-      "pagePath": "pages/artist/artist",
-      "text": "单曲",
-      "iconPath":"images/single.png",
-      "selectedIconPath":"images/single_select.png"
-    },{
-      "pagePath": "pages/artist/artist",
-      "text": "语言年代",
-      "iconPath":"images/language.png",
-      "selectedIconPath":"images/language_select.png"
-    },{
-      "pagePath": "pages/artist/artist",
-      "text": "风格",
-      "iconPath":"images/style.png",
-      "selectedIconPath":"images/style_select.png"
-    },{
-      "pagePath": "pages/artist/artist",
-      "text": "心情",
-      "iconPath":"images/mood.png",
-      "selectedIconPath":"images/mood_select.png"
-    }]
-  }*/

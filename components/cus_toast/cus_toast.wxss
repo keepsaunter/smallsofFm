@@ -8,7 +8,6 @@
 	justify-content: center;
 }
 .my-toast-inner {
-	width: 200rpx;
 	max-width: 90%;
 	padding: 20rpx;
 	border-radius: 10rpx;
@@ -16,4 +15,5 @@
 	opacity: 0.8;
 	color: #fff;
 	background-color: #313131;
+	font-size: 20rpx
 }

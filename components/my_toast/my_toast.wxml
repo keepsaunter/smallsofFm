@@ -1,9 +1,0 @@
-<view class="my-toast" wx:if="{{show}}">
-	<view class="my-toast-inner">
-		<view>
-			<icon wx:if="{{show_icon}}" type="{{show_icon}}" size="40" color="#fff"/>
-			<image wx:if="{{show_image}}" style="width: 80rpx" mode="widthFix" src="{{show_image}}"></image>
-		</view>
-		{{show_title}}
-	</view>
-</view>

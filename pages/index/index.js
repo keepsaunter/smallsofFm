@@ -1,35 +1,102 @@
-import { getDoubanItem } from '../../utils/request.js';
+import { getDoubanItem, getDoubanMusic, getNextMusic } from '../../utils/request.js';
+import { playMusic } from '../../utils/util.js';
+var channel_config = getApp().data.navigator_data;
+var channer_list_name = (function(){
+			var temp_data = [];
+			channel_config.forEach(function(val){
+				temp_data.push(val.id);
+			})
+			return temp_data;
+		})();
+
 Page({
 	data:{
 		navigator_data: getApp().data.navigator_data,
 		artist_channel: [],
+		channel_list_data: JSON.parse('{"'+channer_list_name.join('":[],"')+'":[]}'),
+		select_channel_list: channer_list_name[0],
 		listening: {
-			url: '',
-			author: '',
-			channel: '',
-		}
+			playing: false,
+			channel: ''
+		},
+		show_reload: false
 	},
 	onLoad:function(options){
 		new (getApp().CusToast)();
-		var temp = '[{"related_artists":[{"cover":"https://img3.doubanio.com/img/fmadmin/large/742936.jpg","id":"18006","name":"Natalie Cole"},{"cover":"https://img3.doubanio.com/img/fmadmin/large/32701.jpg","id":"11892","name":"Frank Sinatra"},{"cover":"https://img3.doubanio.com/img/fmadmin/large/720073.jpg","id":"13774","name":"Eliane Elias"},{"cover":"https://img3.doubanio.com/img/fmadmin/large/33434.jpg","id":"2773","name":"Laura Fygi"}],"creator":{"url":"https://site.douban.com/douban.fm/","name":"豆瓣FM","id":""},"intro":"为你推荐 Natalie Cole 以及相似的艺术家","rec_reason":"你可能喜欢 Natalie Cole 的风格","banner":"https://img3.doubanio.com/img/fmadmin/large/742936.jpg","id":28006,"name":"Natalie Cole 系","cover":"https://img3.doubanio.com/img/fmadmin/large/742936.jpg","song_to_start":"","song_num":0,"collected":"false","artist_id":18006,"hot_songs":[]},{"related_artists":[{"cover":"https://img3.doubanio.com/img/fmadmin/large/913583.jpg","id":"4353","name":"Patti Smith"},{"cover":"https://img1.doubanio.com/img/fmadmin/large/33338.jpg","id":"15105","name":"The Doors"},{"cover":"https://img1.doubanio.com/img/fmadmin/large/32187.jpg","id":"4284","name":"Joy Division"},{"cover":"https://img3.doubanio.com/img/fmadmin/large/33220.jpg","id":"6978","name":"The Velvet Underground"}],"creator":{"url":"https://site.douban.com/douban.fm/","name":"豆瓣FM","id":""},"intro":"为你推荐 Patti Smith 以及相似的艺术家","rec_reason":"你可能喜欢 Patti Smith 的风格","banner":"https://img3.doubanio.com/img/fmadmin/large/913583.jpg","id":14353,"name":"Patti Smith 系","cover":"https://img3.doubanio.com/img/fmadmin/large/913583.jpg","song_to_start":"","song_num":0,"collected":"false","artist_id":4353,"hot_songs":[]}]';
-		temp = JSON.parse(temp);
-		temp.push(...temp);
-		temp.push(...temp);
-		temp.push(...temp);
-		this.setData({artist_channel: temp});
-		// getDoubanItem('artist', function(res){
-		// 	console.log(res);
-		// })
-		// wx.showToast({
-		//   title: '准备播放',
-		//   duration: 10000
-		// });
-		// this.show({show_title: 'test', show_duration: 3000});
+		this.getChannelData(this.data.select_channel_list);
+	},
+	getChannelData: function(name, type=0, callback={}){
+		//type=1:refresh
+		var temp_data = this.data.channel_list_data;
+		if(temp_data[name].length==0 || type==1){
+			var self = this;
+			getDoubanItem(name, Object.assign({success: function(res){
+				temp_data[name] = res;
+				self.setData({channel_list_data: temp_data});
+			}},callback));
+		}
 	},
 	navigatorChange: function(e){
-		console.log(e);
+		var key_channel = channer_list_name[e.detail.index];
+		this.getChannelData(key_channel);
+		this.setData({select_channel_list: key_channel});
 	},
 	receiveMusic: function(e){
-		console.log(e.detail);
+		var self = this;
+		var channel_id = e.detail;
+		const backgroundAudioManager = wx.getBackgroundAudioManager();
+
+		if(self.data.listening.channel == channel_id){
+			var play_status = this.data.listening.playing
+
+			if(play_status){
+				backgroundAudioManager.pause();
+			}else{
+				backgroundAudioManager.play();
+			}
+			self.setData({ listening: {
+					channel: channel_id,
+					playing: !play_status
+				}
+			});
+		}else{
+			var temp_data_channel = self.data.listening.channel;
+			wx.getNetworkType({
+		        success: function(res) {
+		          var networkType = res.networkType;
+		          if(/^(2g|3g|4g)$/.test(networkType) && temp_data_channel==''){
+		            self.show({show_title: '正在使用非wifi网络听歌', show_duration: 1500});
+		          }
+		        }
+		    });
+		    self.setData({ listening: {
+					channel: e.detail,
+					playing: true
+				}
+			});
+			getDoubanMusic(e.detail, {success: function(res){
+				playMusic(res);
+				backgroundAudioManager.onTimeUpdate(function(){
+			      if(backgroundAudioManager.currentTime != undefined && backgroundAudioManager.duration != undefined){
+			        if(backgroundAudioManager.currentTime >= backgroundAudioManager.duration && backgroundAudioManager.duration!=0){
+			        	getNextMusic(e.detail, res.sid, {success: function(res){
+			        			playMusic(res);
+			        		}
+			        	});
+			        }
+			      }
+			    });
+			}});
+		}
+	},
+	reloadPage: function(){
+		this.onLoad();
+	},
+	onPullDownRefresh: function(){
+		this.getChannelData(this.data.select_channel_list, 1, {
+			complete:function(){
+				wx.stopPullDownRefresh();
+			}
+		});
 	}
 })		

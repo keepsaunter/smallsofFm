@@ -1,9 +1,11 @@
 <import src="../../components/cus_toast/cus_toast.wxml" />
-<component-music style="width: 100%;height: 54rpx;position: fixed;"></component-music>
-<view style="width: 100%;height: 54rpx;"></view>
 <view>
-	<component-artist bind:receiveMusic="receiveMusic" channels="{{artist_channel}}"></component-artist>
+	<view wx:if="{{!show_reload}}">
+		<component-content listening="{{listening}}" bind:receiveMusic="receiveMusic" channels="{{channel_list_data[select_channel_list]}}"></component-content>
+	</view>
+	<component-reload bind:tap="reloadPage" wx:if="{{show_reload}}"></component-reload>
 </view>
+
 <view class="bottom-navigator">
 	<component-navigator navigator_data="{{navigator_data}}" bind:selectChange="navigatorChange"></component-navigator>
 </view>

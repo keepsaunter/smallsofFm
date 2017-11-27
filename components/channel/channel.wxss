@@ -5,8 +5,23 @@
 }
 .channel-item image {
 	width: 140rpx;
+	max-height: 140rpx;
 	border-radius: 50%;
 }
 .channel-item-title {
 	font-size: 20rpx;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+.channel-item-cover {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin-left: -70rpx;
+	background-color: grey;
+	opacity: 0.6;
+	width: 140rpx;
+	height: 140rpx;
+	border-radius: 50%;
 }

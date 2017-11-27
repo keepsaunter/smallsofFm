@@ -1,9 +1,8 @@
 {
 	"usingComponents": {
-		"component-music": "../../components/music_info/music_info",
-		"component-artist": "../../components/artist/artist",
+		"component-content": "../../components/content/content",
 		"component-navigator": "../../components/navigator/navigator",
-		"component-toast": "../../components/my_toast/my_toast"
+		"component-reload": "../../components/reload/reload"
 	},
 	"enablePullDownRefresh": true
 }

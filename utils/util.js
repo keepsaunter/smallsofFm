@@ -8,7 +8,7 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
-
+//dispose request params object,return a request string
 const urlEncode = params => {
   if(!params) return '';
   let req_str = '';
@@ -22,25 +22,56 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+//pack wx request api
 const myRequest = req_object => {
-  wx.getNetworkType({
-    success: function(res) {
-      // 返回网络类型, 有效值：
-      // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
-      var networkType = res.networkType;
-      if(/^(wifi|2g|3g|4g)$/.test(networkType)){
+  wx.showNavigationBarLoading();
+  var temp_req_object = {...req_object};
+  wx.request(Object.assign(req_object, {
+    fail: function(res) {
+      wx.getNetworkType({
+        success: function(res) {
+          var networkType = res.networkType;
+          if(!/^(wifi|2g|3g|4g)$/.test(networkType)){
+            let pages = getCurrentPages();
+            let cur_page = pages[pages.length - 1];
+            //show reload component after request fail if it has
+            if(cur_page.data.show_reload !== undefined) cur_page.setData({show_reload: true});
+            cur_page.show({show_title: '请检查网络', show_duration: 1500});
+          }
+          if(temp_req_object.fail) temp_req_object.fail();
+        },
+        fail: function(res) {
+          if(temp_req_object.fail) temp_req_object.fail();
+        }
+      });
+    },
+    success: function(res){
+      let pages = getCurrentPages();
+      let cur_page = pages[pages.length - 1];
+      //remove reload component after request success
+      if(cur_page.data.show_reload !== undefined) cur_page.setData({show_reload: false});
 
-      }else{
-
+      if(temp_req_object.success) {
+        temp_req_object.success(res);
       }
     },
-    fail: function(res) {
+    complete: function(){
+      wx.hideNavigationBarLoading();
+      if(temp_req_object.complete) temp_req_object.complete();
     }
-  })
+  }))
 }
-
+const playMusic = resource => {
+    const backgroundAudioManager = wx.getBackgroundAudioManager();
+    backgroundAudioManager.title = resource.title;
+    backgroundAudioManager.epname = resource.albumtitle;
+    backgroundAudioManager.singer = resource.artist;
+    backgroundAudioManager.coverImgUrl = resource.picture;
+    backgroundAudioManager.src = resource.url;
+}
 module.exports = {
   formatTime: formatTime,
   urlEncode: urlEncode,
-  myRequest: myRequest
+  myRequest: myRequest,
+  playMusic: playMusic
 }

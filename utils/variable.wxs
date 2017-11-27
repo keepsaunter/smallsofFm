@@ -1,6 +1,6 @@
 var image_path = '../../images/';
 module.exports = {
 	path_img_start: image_path+'start.png',
-	path_img_pause: image_path+'pause.png'
+	path_img_pause: image_path+'pause.png',
 	path_img_artist: image_path+'artist.png'
 }

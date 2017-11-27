@@ -1,6 +1,8 @@
-import { getDoubanMusic } from '../../utils/request.js';
 Component({
 	properties: {
+		listening: {
+			type: Object
+		},
 		cover_img: {
 			value: '',
 			type: String
@@ -9,7 +11,7 @@ Component({
 			value: '',
 			type: String
 		},
-		id: {
+		channel_id: {
 			value: '',
 			type: Number
 		}
@@ -19,10 +21,7 @@ Component({
 	},
 	methods: {
 		channelTapHandle: function(){
-			var self = this;
-			getDoubanMusic(self.id, function(res){
-				self.triggerEvent('receiveMusic', res);
-			});
+			this.triggerEvent('receiveMusic', this.data.channel_id);
 
 // 			const backgroundAudioManager = wx.getBackgroundAudioManager()
 
