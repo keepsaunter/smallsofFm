@@ -1,9 +1,9 @@
 <wxs src='../../utils/variable.wxs' module="variable"></wxs>
 <view class="channel-item" bind:tap="channelTapHandle">
 	<text>{{channel.name}}</text>
-	<image class="channel-item-image" mode="widthFix" src="{{cover_img}}" binderror="" bindload=""></image>
+	<image  class="channel-item-image" mode="widthFix" src="{{cover_img}}" binderror="" bindload=""></image>
 	<view class="channel-item-title">{{title}}</view>
 	<view class="channel-item-cover" wx:if="{{listening.channel==channel_id}}">
-		<image style="width: 128rpx;margin: 6rpx 4rpx 6rpx 8rpx;" mode="widthFix" src="{{listening.playing? variable.path_img_pause:variable.path_img_start}}" binderror="" bindload=""></image>
+		<image style="width: 128rpx;margin: 6rpx 4rpx 6rpx 8rpx;" mode="widthFix" src="{{listening.playing? variable.path_img_pause:variable.path_img_start}}"></image>
 	</view>
 </view>

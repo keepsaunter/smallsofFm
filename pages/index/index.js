@@ -78,11 +78,14 @@ Page({
 				playMusic(res);
 				backgroundAudioManager.onTimeUpdate(function(){
 			      if(backgroundAudioManager.currentTime != undefined && backgroundAudioManager.duration != undefined){
-			        if(backgroundAudioManager.currentTime >= backgroundAudioManager.duration && backgroundAudioManager.duration!=0){
-			        	getNextMusic(e.detail, res.sid, {success: function(res){
-			        			playMusic(res);
-			        		}
-			        	});
+			        if(backgroundAudioManager.currentTime >= backgroundAudioManager.duration-0.01){
+			        	self.show({show_title: '3s后播放下一曲...', show_duration: 2000});
+			        	setTimeout(function(){
+			        		getNextMusic(e.detail, res.sid, {success: function(res){
+				        			playMusic(res);
+				        		}
+				        	});
+			        	}, 3000);
 			        }
 			      }
 			    });
@@ -90,7 +93,7 @@ Page({
 		}
 	},
 	reloadPage: function(){
-		this.onLoad();
+		this.getChannelData(this.data.select_channel_list, 1);
 	},
 	onPullDownRefresh: function(){
 		this.getChannelData(this.data.select_channel_list, 1, {

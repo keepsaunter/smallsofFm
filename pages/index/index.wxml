@@ -10,4 +10,3 @@
 	<component-navigator navigator_data="{{navigator_data}}" bind:selectChange="navigatorChange"></component-navigator>
 </view>
 <template is="cus_toast" data="{{...show_content}}"></template>
-<!-- <component-toast></component-toast> -->
