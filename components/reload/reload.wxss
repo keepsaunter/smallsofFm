@@ -1,0 +1,8 @@
+.reload-component {
+	width: 100%;
+	text-align: center;
+	margin-top: 50%;
+	color: #26A2FF;
+	text-decoration: underline;
+	text-decoration-color: #26A2FF;
+}

@@ -1,0 +1,9 @@
+.content-artist {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.content-artist-item {
+	width: 160rpx;
+	margin-top: 30rpx;
+}

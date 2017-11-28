@@ -1,0 +1,3 @@
+<view class="content-artist">
+	<component-channel bind:receiveMusic="receiveMusic" class="content-artist-item" wx:key="{{index}}" wx:for="{{channels}}" channel_id="{{item.id}}" title="{{item.name}}" cover_img="{{item.cover}}" listening="{{listening}}"></component-channel>
+</view>
