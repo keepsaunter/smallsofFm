@@ -8,7 +8,7 @@ const douban_channels_res = 'https://douban.fm/j/v2/rec_channels?specific=';
 const getDoubanItem = (type, callback={}) => {
 	var temp = {...callback};
 	myRequest(Object.assign(callback, {
-		url: douban_channels_res+type,
+		url: cross_domain_url+douban_channels_res+type,
 		success: function(res) {
 	    	temp.success(res.data.data.channels);
 	  	}

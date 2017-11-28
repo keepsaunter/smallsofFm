@@ -101,5 +101,18 @@ Page({
 				wx.stopPullDownRefresh();
 			}
 		});
+	},
+	onShareAppMessage: function(res){
+		var self = this;
+		return {
+			title: "fm-saunter",
+			imageUrl: "../../images/share_img.png",
+			success: function(res){
+				self.show({show_title: '转发成功', show_icon: 'success_no_circle'});
+			},
+			fail: function(res){
+				self.show({show_title: '转发失败'});
+			}
+		}
 	}
 })		
