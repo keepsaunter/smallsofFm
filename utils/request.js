@@ -3,7 +3,7 @@ import { urlEncode, myRequest } from './util.js';
 const cross_domain_url = "https://bird.ioliu.cn/v1/?url=";
 
 //request douban channels
-const douban_channels_res = 'https://douban.fm/j/v2/rec_channels?specific=';
+const douban_channels_res = 'https://fm.douban.com/j/v2/rec_channels?specific=';
 //callback:{success,fail,complete}
 const getDoubanItem = (type, callback={}) => {
 	var temp = {...callback};

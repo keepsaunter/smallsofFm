@@ -9,12 +9,14 @@ App({
         icon: '../../images/artist.png',
         selectIcon: '../../images/artist_select.png',
         text: '艺术家'
-      },{
-        id: 'track',
-        icon: '../../images/track.png',
-        selectIcon: '../../images/track_select.png',
-        text: '单曲'
-      },{
+      },
+      // {
+      //   id: 'track',
+      //   icon: '../../images/track.png',
+      //   selectIcon: '../../images/track_select.png',
+      //   text: '单曲'
+      // },
+      {
         id: 'language',
         icon: '../../images/language.png',
         selectIcon: '../../images/language_select.png',
